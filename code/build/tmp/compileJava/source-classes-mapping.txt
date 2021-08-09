@@ -1,0 +1,2 @@
+com/team/study/MainApplication.java
+ com.team.study.MainApplication
