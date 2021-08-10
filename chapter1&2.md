@@ -40,7 +40,7 @@
 <details>
   <summary>cf) DRY, KISS, 놀람최소화 원칙</summary>
 
-  
+
 
 - **DRY : Don`t Repaet Yourself**
 
@@ -59,7 +59,7 @@
 <details>
   <summary> cf) final 변수</summary>
 
-  
+
 
 - 어떤 객체 상태의 변화 가능 여부를 구분 가능
 - 주의! final 필드로 가리키는 객체라도 가변상태(mutable state)를 포함할 수 있다 (4장 참고)
@@ -212,7 +212,7 @@
     		Student student = new Student();
     	
     		// 메소드명을 보고 여기서 student 객체의 health 상태를 바꿀 것이라 예측할 수 없음
-    		enroll(reference);
+    		enroll(student);
     		
     		if (student.alias.equals("백둥이")) {
     			student.health = "Good";
