@@ -3,9 +3,33 @@
 발표일: August 9, 2021
 발표자: 임현유
 
-[TOC]
+  
 
+[1. SRP : Single Responsibility Principle, 단일 책임 원칙](#1. SRP : Single Responsibility Principle, 단일 책임 원칙)
 
+​		[코드 유지보수성 Code Maintainability](#코드 유지보수성 Code Maintainability)
+
+​		[안티패턴 : Anti-pattern](#안티패턴 : Anti-pattern)		
+
+[2. 응집도 & 결합도](#2. 응집도 & 결합도)
+
+​		[응집도 Cohesion](#응집도 Cohesion)
+
+​		[결합도 Coupling](#결합도 Coupling)
+
+[3. 테스트](#3. 테스트)
+
+​		[테스트 자동화](#테스트 자동화)
+
+​		[유닛 테스트](#유닛 테스트)
+
+​		[Given - When - Then 공식](#Given - When - Then 공식)
+
+​		[코드 커버리지 Code Coverage](#코드 커버리지 Code Coverage)
+
+  
+
+  
 
 # 1. SRP : Single Responsibility Principle, 단일 책임 원칙
 
@@ -13,20 +37,28 @@
 
 
 
-cf) DRY, KISS, 놀람최소화 원칙
+<details>
+  <summary>cf) DRY, KISS, 놀람최소화 원칙</summary>
+
+
+
 - **DRY : Don`t Repaet Yourself**
 
 - **KISS : Keep It Short and SImple**
 
-    <details>
-      <summary markdown="span"> 놀람 최소화 원칙 : Principle of Least Surprise</summary>
+  <details>
+    <summary markdown="span"> 놀람 최소화 원칙 : Principle of Least Surprise</summary>
 
-    - 메서드의 동작을 바로 이해할 수 있는 메서드명 사용  
-    - 파라미터의 상태를 바꾸지 않는다. 코드가 파라미터의 상태에 의존할 수 있으므로 
-      </details>
+
+  - 메서드의 동작을 바로 이해할 수 있는 메서드명 사용  
+  - 파라미터의 상태를 바꾸지 않는다. 코드가 파라미터의 상태에 의존할 수 있으므로 
+    </details>
+
+</details>
 
 <details>
   <summary> cf) final 변수</summary>
+
 
 
 - 어떤 객체 상태의 변화 가능 여부를 구분 가능
@@ -35,7 +67,7 @@ cf) DRY, KISS, 놀람최소화 원칙
 
 </details>
 
-
+  
 
 ### 코드 유지보수성 Code Maintainability
 
@@ -44,7 +76,7 @@ cf) DRY, KISS, 놀람최소화 원칙
 - 새로운 기능을 <u>쉽게 추가</u>하거나, 기존 기능을 <u>쉽게 제거</u>할 수 있어야 함
 - **캡슐화(Encapsulation)**가 잘 되어 사용자가 (세부 구현 내용을 읽을 필요 없이) <u>쉽게 기능 변경</u>을 할 수 있어야 함
 
-
+  
 
 ### 안티패턴 : Anti-pattern
 
@@ -60,15 +92,15 @@ cf) DRY, KISS, 놀람최소화 원칙
 
 → **SRP** 원칙 필요 && **KISS** 원칙을 남용하지 않아야
 
+  
 
+  
 
-
-
-
+  
 
 # 2. 응집도 & 결합도
 
-
+  
 
 ## 응집도 Cohesion
 
@@ -89,7 +121,7 @@ cf) DRY, KISS, 놀람최소화 원칙
     | **유틸리티**        | 낮음                | 간단히 추가 가능            | 클래스의 책임을 파악하기 어려움    |
     | **시간**            | 낮음                | -                           | 각 동작을 이해하고 사용하기 어려움 |
 
-
+  
 
 ## 결합도 Coupling
 
@@ -101,11 +133,11 @@ cf) DRY, KISS, 놀람최소화 원칙
 
     → 시계 내부구조는 시계의 인터페이스에 영향을 주지 않는다
 
+  
 
+  
 
-
-
-
+  
 
 # 3. 테스트
 
@@ -118,7 +150,7 @@ cf) DRY, KISS, 놀람최소화 원칙
     - 변화에도 튼튼함 유지
     - 프로그램 이해도
 
-
+  
 
 ### **유닛 테스트**
 
@@ -129,7 +161,7 @@ cf) DRY, KISS, 놀람최소화 원칙
 - @Test 어노테이션을 테스트 메서드에 추가(제이유닛)
 - Assert구문으로 예상된 결과를 설정! p.46 참고
 
-
+  
 
 ### **Given - When - Then 공식**
 
@@ -137,7 +169,7 @@ cf) DRY, KISS, 놀람최소화 원칙
 - **When :** 동작을 실행
 - **Then :** 예상된 결과를 assertion으로 설정
 
-
+  
 
 ### **코드 커버리지 Code Coverage**
 
@@ -151,11 +183,11 @@ cf) DRY, KISS, 놀람최소화 원칙
 
     추천O
 
+  
 
+  
 
-
-
-
+  
 
 # 질문!
 
@@ -180,7 +212,7 @@ cf) DRY, KISS, 놀람최소화 원칙
     		Student student = new Student();
     	
     		// 메소드명을 보고 여기서 student 객체의 health 상태를 바꿀 것이라 예측할 수 없음
-    		enroll(reference);
+    		enroll(student);
     		
     		if (student.alias.equals("백둥이")) {
     			student.health = "Good";
@@ -200,17 +232,24 @@ cf) DRY, KISS, 놀람최소화 원칙
     
     ```
 
+      
+    
 - Q. 결합도를 낮출 수 있는 다른 방법?
 
     A. factory 패턴! 결합도를 낮추는 대표적인 방법 중 하나
+
+      
 
 - Q. 결합도를 낮춰야 하는 이유?
 
     A. 한객체가 다른 객체를 변경할 수 있는 행위를 막는 것만으로 결합도를 낮출 수 있음
 
+      
+
 - Q. 의존성 주입을 통해서 결합도를 낮출 수 있는지?
 
     A. IoC의 Bean, DI, AOP
 
+​    
 
-
+  
