@@ -5,27 +5,13 @@
 
   
 
-[1. SRP : Single Responsibility Principle, 단일 책임 원칙](#1-srp--single-responsibility-principle-단일-책임-원칙)
-
-​		[코드 유지보수성 Code Maintainability](#코드-유지보수성-code-maintainability)
-
-​		[안티패턴 : Anti-pattern](#안티패턴--anti-pattern)		
+[1. SRP : Single Responsibility Principle, 단일 책임 원칙](#1-srp--single-responsibility-principle-단일-책임-원칙)	
 
 [2. 응집도 & 결합도](#2-응집도--결합도)
 
-​		[응집도 Cohesion](#응집도-cohesion)
-
-​		[결합도 Coupling](#결합도-coupling)
-
 [3. 테스트](#3-테스트)
 
-​		[테스트 자동화](#테스트-자동화)
-
-​		[유닛 테스트](#유닛-테스트)
-
-​		[Given - When - Then 공식](#given---when---then-공식)
-
-​		[코드 커버리지 Code Coverage](#코드-커버리지-code-coverage)
+[4. 질문](#4-질문)
 
   
 <br/>
@@ -192,7 +178,7 @@
 
 <br/>  
 
-# 질문!
+# 4. 질문!
 
 <br/>
 
