@@ -1,4 +1,4 @@
-# be-G-book-real-world-software-development-study
+# Be-G-RWSD-Book-Study
 실전 자바 소프트웨어 개발 스터디
 
 - [책 정보 링크](http://www.yes24.com/Product/Goods/90533758?OzSrank=2)
