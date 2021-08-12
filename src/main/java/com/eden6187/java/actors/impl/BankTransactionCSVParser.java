@@ -1,5 +1,6 @@
 package com.eden6187.java.actors.impl;
 
+import com.eden6187.java.exceptions.CSVSyntaxException;
 import com.eden6187.java.actors.inter.BankTransactionParser;
 import com.eden6187.java.domain.BankTransaction;
 
@@ -9,9 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BankTransactionCSVParser implements BankTransactionParser {
+    private static final int EXPECTED_ATTRIBUTES_LENGTH = 3;
     private static final DateTimeFormatter DATE_PATTERN =  DateTimeFormatter.ofPattern("dd-MM-yyyy");
     public BankTransaction parseRow(final String line){
         final String[] columns = line.split(",");
+
+        if(columns.length < EXPECTED_ATTRIBUTES_LENGTH){
+            throw new CSVSyntaxException();
+        }
 
         final LocalDate date = LocalDate.parse(columns[0], DATE_PATTERN);
         final double amount = Double.parseDouble(columns[1]);
@@ -19,6 +25,7 @@ public class BankTransactionCSVParser implements BankTransactionParser {
 
         return new BankTransaction(date, amount, description);
     }
+    
     public List<BankTransaction> parseRows(final List<String> rows){
         final List<BankTransaction> bankTransactions = new ArrayList<>();
         rows.forEach((row) -> {bankTransactions.add(parseRow(row));});
