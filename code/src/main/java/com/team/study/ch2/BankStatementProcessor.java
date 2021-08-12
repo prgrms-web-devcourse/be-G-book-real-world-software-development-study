@@ -25,7 +25,6 @@ public class BankStatementProcessor {
         double total = 0;
         for (final BankTransaction bankTransaction : bankTransactions) {
             if (bankTransaction.getDate().getMonth() == month) {
-
                 total += bankTransaction.getAmount();
             }
         }
