@@ -1,4 +1,4 @@
-package com.programmers.java.chapter2;
+package com.programmers.java.chapter3;
 
 import java.util.List;
 
