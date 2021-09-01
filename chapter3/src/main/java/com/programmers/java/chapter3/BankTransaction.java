@@ -61,6 +61,8 @@ public class BankTransaction {
             notification.addError("The description is too long");
         }
 
+        final String str;
+
         final LocalDate parsedDate;
         try {
             parsedDate = LocalDate.parse(this.date.toString());
