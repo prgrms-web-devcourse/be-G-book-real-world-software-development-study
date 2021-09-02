@@ -39,7 +39,7 @@
 
 - pulisher/subscriber
 
-![image-20210901001048199](/Users/gim-yeonghyeon/Library/Application Support/typora-user-images/image-20210901001048199.png)
+![img](https://user-images.githubusercontent.com/56511173/131782932-bda73aa6-3baf-47d0-97fa-10df3fc0a756.png)
 
 
 
@@ -113,13 +113,13 @@
 
 - ```SenderEndPoint onLogon(...)``` ⇢ **NullPointerException.**..😹
 
-<img src="images/D5iWgNTXsAE01w4.jpg" alt="Uživatel 프로그래밍_드립 na Twitteru: „그들이 두려워하는 것 NullPointerException...… “" style="zoom:50%;" />
+<img src="https://user-images.githubusercontent.com/56511173/131782796-1bd83e50-7aeb-4798-94e5-10df6b0b4d25.png" alt="Uživatel 프로그래밍_드립 na Twitteru: „그들이 두려워하는 것 NullPointerException...… “" style="zoom:100%;" />
 
 
 
 - ```Optional<SenderEndPoint> onLogon(...)``` ⇢ 어쩔 수 없이 Null Checking을 가져 갈 수 밖에 없음 😸
 
-![편안-한 짤 - OP.GG Talk](images/193EDE65-6470-4FE4-BD71-E84E2F6837E3.jpeg)
+![편안-한 짤 - OP.GG Talk](images/131782870-9aabd692-22fd-4679-9ad8-b51bb9cfb0fd.png)
 
 
 
