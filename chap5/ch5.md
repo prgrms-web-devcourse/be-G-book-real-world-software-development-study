@@ -23,7 +23,7 @@
 
 ### TDD 주기
 
-![TDD주기_feat_리팩터링](img/TDD주기_feat_리팩터링.png)
+![TDD주기_feat_리팩터링](https://github.com/prgrms-web-devcourse/be-G-book-real-world-software-development-study/blob/291318a59fa30d7e200ddf67ef4657eb696b5242/chap5/img/TDD%EC%A3%BC%EA%B8%B0_feat_%EB%A6%AC%ED%8C%A9%ED%84%B0%EB%A7%81.png)
 
 - 실생활에서는 지속적으로 코드를 리팩터링해야 한다. 위의 프로세스를 따른다면 코드를 바꿨을 때 뭔가 잘못되어도 의지할 수 있는 테스트 스위트를 갖게 된다.
 
