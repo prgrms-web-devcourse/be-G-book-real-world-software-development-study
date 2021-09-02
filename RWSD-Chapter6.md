@@ -119,7 +119,7 @@
 
 - ```Optional<SenderEndPoint> onLogon(...)``` ⇢ 어쩔 수 없이 Null Checking을 가져 갈 수 밖에 없음 😸
 
-![편안-한 짤 - OP.GG Talk](images/131782870-9aabd692-22fd-4679-9ad8-b51bb9cfb0fd.png)
+![편안-한 짤 - OP.GG Talk](images/131783317-8a379ffa-5f7f-4d5c-8d9e-b9da8546bfde.png)
 
 
 
