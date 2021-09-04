@@ -126,15 +126,119 @@ public class ActionTest {
 
 ## 조건 추가하기
 
+특정 **`조건`**을 만족하면 
+
+- 액션을 수행하도록 설정할 수 있어야 한다. 
+- 이 조건은 <u>**어떤 팩트에 의존**</u>하는데 예를 들어 "**잠재 고객의 직함이 CEO** 면 알림 주기" 같은거다.
+
 ### 1. 상태 모델링
+
+```java
+final Customer customer = new Customer("Mark", "CEO");
+
+businessRuleEgine.addAction(new Action() {
+  @Override
+  public void perform() {
+    if("CEO".equals(customer.getJobTitle())) {
+      Mailer.sendEmail("sales@company.com", "Relevant cusomer:" + customer);
+    }
+  }
+})
+```
+
+위의 코드에선 문제가 두 가지가 있다.
+
+1. 액션을 어떻게 테스트할 것 인가?
+   - `customer` 객체가 하드코딩된 디펜던시("Mark, "CEO")를 가지기 때문에 기능 코드가 독립적이지 않다.
+2. `customer` 객체는 여러 곳에 공유된 외부 상태이므로 의무(책임)가 혼란스럽게 엉틴다.
+   - `customer` 객체는 액션과 그룹화되어 있지 않다.
+   - <!--TODO: 그룹화 되어 있지 않다는 표현이 무엇?-->
+
+해결 방법
+
+- 비지니스 규칙 엔진 내의 액션에서 사용할 수 있는 상태로 캡슐화해야 한다. -> `Facts` 라는 클래스로 정의
+
+이르케 상태를 모델링하는 `Facts` 클래스를 따로 만들면
+
+- 공개 API로 사용자에게 제공할 기능을 조절할 수 있으며
+- 클래스의 동작을 유닛 테스트할 수 있다.
 
 ### 2. 지역 변수 형식 추론
 
+자바 10의 기능
+
+- 지역 변수 **`형식 추론`** 기능을 지원
+
+**`형식 추론`**이란
+
+- 컴파일러가 정적 형식을 자동으로 추론해 결정하는 기능
+- 사용자는 더 이상 명시적으로 형식을 지정할 필요가 없음.
+
+```java
+Map<String, String> facts = new HashMap<>(); // 이 기능은 자바 7에서 추가된 '다이아몬드 연산자'라는 기능.
+```
+
+자바 10 부터는 형식 추론이 **지역 변수까지** 확장 적용 됨.
+
+```java
+var env = new Facts(); // Facts env = new Facts();
+var businessRuleEngine = new BusinessRuleEngine(env); // BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine(env);
+```
+
+<!--TODO: var 키워드란 무엇일까?-->
+
+항상 이 기능을 사용해야 할까?
+
+- 노노, 개발자는 코드를 구현하는 것보다 읽는 데 더 많은 시간을 소비한다.
+- `var` 이걸 써도 읽히면 이걸 써도 됨 ㅋㅋㅋ
+
 ### 3. switch 문
+
+여러 거래를 저장하고 싶어!
+
+- 상태를 `enum` 으로 지정하자.
+
+  ```java
+  public enum Stage {
+    LEAD, INTERESTED, EVALUATING, CLOSED
+  }
+  ```
+
+- <!--TODO: java enum 에 대해 깊숙히 알아보자.-->
+
+**자바 12**에서는 
+
+- 새로운 `switch` 문을 이용해서 여러 `break` 문을 사용하지 않고도 **<u>폴스루</u>**를 방지할 수 있다.
+- 폴스루(fall-through)란, 다음 블록이 의도치 않게 실행되는 것. 그래서 사소한 버그가 발생할 수 있다.
+
+그래서 새로운 switch 문을 쓰면
+
+- 가독성이 좋아
+- 모든 가능성을 확인하는 **소모 검사**(exhaustiveness)도 이뤄짐.
+- <u>자바 컴파일러</u>가 모든 enum 값을 switch에서 소모했는지 확인함!
 
 ### 4. 인터페이스 분리 원칙(ISP)
 
+클래스의 기능을 수행과 함께 <u>수행 조건을 검사</u>하는 기능도 추가하고 싶다면?
+
+- 따로 조건을 평가하는 기능을 내장하도록 새 인터페이스를 구현한다.
+
+인터페이스 분리 원칙이란?
+
+- 어떤 클래스도 사용하지 않는 메서드에 의존성을 갖지 않아야 한다. -> 불필요한 결합을 만들기 때문
+
+ISP가 SRP과 비슷하지만 관점이 다른데,,
+
+- ISP는 설계가 아닌 사용자 인터페이스(UI)에 초저을 둔다
+- 즉, 인터페이스가 커지면 인터페이스 사용자는 결국 사용하지 않는 기능을 갖게 되며 이는 불필요한 결합도를 만든다.
+
+그래서 ISP를 잘 따르려면?
+
+- <u>현재의 개념</u>을 **독자적인 작은 개념**으로 쪼개야 한다. -> 이 원칙은 `응집도`도 높아진다.
+
 ## 플루언트 API 설계
+
+
 
 ### 1. 플루언트 API란
 
