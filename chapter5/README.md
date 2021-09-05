@@ -238,11 +238,185 @@ ISP가 SRP과 비슷하지만 관점이 다른데,,
 
 ## 플루언트 API 설계
 
+개선된 switch문은 그리 친숙한 문법이 아닌데 어떻게,,?
 
+- 비즈니스 사용자의 도메인에 맞춰 단순하게 규칙을 추가하는 기능을 제공하려함.
+
+여기서 배울건?
+
+- 빌더 패턴
+- 플루언트 API
 
 ### 1. 플루언트 API란
 
+플루언트 API란
+
+- 특정 문제를 더 직관적으로 해결할 수 있도록 **<u>특정 도메인</u>**에 맞춰진 API를 가리킨다.
+- 메서드 체이닝(method chaining)을 이용하면 더 복잡한 연산도 저장할 수 있음.
+
+많이 접해봤을 껀데
+
+- 자바 스트림 API <!--TODO: java stream  -->
+- Spring Integration <!--TODO: Spring Integration -->
+- jOOQ  <!--TODO: jOOQ?? -->
+
 ### 2. 도메인 모델링
+
+우리가 만들 애플리케이션의 <u>편의성을 어떻게 개선</u>할 것 인가?
+
+- 어떤 조건이 주어졌을 때(when)
+- 이런 작업을 한다(then)
+
+위와 같은 간단한 조합을 규칙으로 지정할 수 있게 한다.
+
+만들 애플리케이션의 도메인에는 세 가지 개념이 등장하는데
+
+- 조건 : 어떤 패트에 적용할 조건
+- 액션 : 실행할 연산이나 코드 집합
+- 규칙 : 조건과 액션을 합친 것. 조건이 참일 때만 액션을 실행한다.
+
+> 좋은 이름은 코드가 어떤 문제를 해결하는지 이해하는 데 도움을 주므로 프로그래밍에서 좋은 이름은 아주 중요하다.
+
+```java
+// Condtion interface
+@FunctionalInterface
+public interface Condition {
+  boolean evalute(Facts facts);
+}
+
+// Rule interface
+@FunctionalInterface
+public interface Rule {
+  void perform(Facts facts);
+}
+
+// DefaultRule implemented Rule
+public class DefaultRule implements Rule {
+  private final Condition condition;
+  private final Action action;
+  
+  public Rule(final Condtion condition, final Action action) { // TODO: 아니 생성자는 DefaultRule 아님?
+    this.condition = condition;
+    this.action = action;
+  }
+  
+  public void perform(final Facts facts) {
+    if (condition.evalute(facts))
+      action.execute(facts);
+  }
+}
+
+// 동작
+public class Main {
+  public static void main(String[] args) {
+    // ...
+    final Condtion condition = (Facts facts) -> "CEO".equals(facts.getFact("jobTitle"));
+    final Action action = (Facts facts) -> {
+      var name = facts.getFact("name");
+      Mailer.sendEmail("sales@company.com", "Relevant customer!!" + name);
+    }
+    
+  } 
+}
+```
 
 ### 3. 빌더 패턴
 
+위의 코드는 여전히 <u>수동적</u>인데 어떻게 개선할 것?
+
+- 사용자가 각 객체를 인스턴스화한 다음, 한데로 모아야 한다.
+
+- **`빌드 패턴`**으로 Rule 객체와 필요한 조건, 액션을 만드는 과정을 개선해보자.
+
+개선 과정
+
+- 빌던 패턴
+  - 단순하게 객체를 만드는 방법을 제공한다. 
+  - 생성자의 파라미터를 분해해서 각각의 파라미터를 받는 여러 메서드로 분리한다.
+- 덕분에 각 메서드는 도메인이 다루는 문제와 비슷한 이름을 갖는다.
+
+```java
+public class RuleBuilder {
+  private Condtion condtion;
+  private final Action action;
+  
+  public RuleBuilder when(final Condtion condition) { 
+    this.condition = condition;
+		return this; // 현재 인스턴스를 반환
+  }
+  
+  public RuleBuilder then(final Action action) { 
+    this.action = action;
+		return this; // 현재 인스턴스를 반환 -> 이렇게 하면 메서드를 연쇄적으로 연결한다.
+  }
+  
+  public Rule createRule() {
+    return new DefaultRule(condtion, action);
+  }
+}
+```
+
+```java
+Rule rule = new RuleBuilder()
+  .when(facts -> "CEO".equals(facts.getFact("jobTitle")))
+  .then(facts -> {
+    var name = facts.getFact("name");
+    Mailer.sendEmail("sales@company.com", "Relevant customer!!" + name);
+  })
+  .createRule();
+```
+
+이렇게하면
+
+- 쿼리와 비슷한 형태로 보이며
+- 규칙의 개념, when(), then() 등 도메인 용어를 내장 생성자로 활영한다.
+
+그래도 두 가지 문제가 남아 있다.
+
+- 빈 RuleBuilder 인스턴스화
+- createRule() 메서드 호출
+
+세 가지 방법으로 API를 개선해보자.
+
+1. 사용자가 명시적으로 생성자를 호출하지 못하도록 생성자를 비공개로 설정한다. 그러려면 API에 다른 진입점을 만들어야 한다.
+2. when() 메서드를 정적 메서드로 만들어 이 메서드를 사용자가 직접 호출하면 예전 생성자를 호출하도록 한다. 게다가 정적 메서드를 제공하므로 Rule 객체를 설정하려면 어떤 메서드를 이용해야 하는지 쉽게 알 수 있으므로 발견성도 개선된다.
+3. then() 메서드가 DefaultRule 객체의 최종 생성을 책임진다.
+
+```java
+public class RuleBuilder {
+  private final Condtion condtion;
+  
+  private RuleBuilder(final Condtion condtion) {
+    this.condition = condtion;
+  }
+   
+  public static RuleBuilder when(final Condtion condition) { 
+		return new RuleBuilder(condtion); // 현재 인스턴스를 반환
+  }
+  
+  public RuleBuilder then(final Action action) { 
+    return new DefaultRule(condtion, action);
+  }
+  
+  public Rule createRule() {
+    return new DefaultRule(condtion, action);
+  }
+}
+
+// 사용 (in Main.class)
+final Rule ruleSendEmailToSalesWhenCEO = RuleBuilder
+  .when(facts -> "CEO".equals(facts.getFact("jobTitle")))
+  .then(facts -> {
+    var name = facts.getFact("name");
+    Mailer.sendEmail("sales@company.com", "Relevant customer!!" + name);
+  });
+
+```
+
+## 정리
+
+- TDD
+- 모킹
+- switch문, 형식 추론
+- 빌더 패턴
+- 인터페이스 분리 원칙
