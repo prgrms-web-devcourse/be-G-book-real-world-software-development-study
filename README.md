@@ -37,8 +37,8 @@
 |chapter 3 입출금 내역 분석기 확장판|8월 12일 목요일|김부희|[링크](https://github.com/buri-1029/Be-G-RWSD-Book-Study/blob/G/3/buri-1029/note/ch3.md)|
 |chapter 4 문서 관리 시스템|8월 17일 화요일|이범진|[링크](https://github.com/venzym/be-G-book-real-world-software-development-study/blob/G/4/venzym/Chapter%204.%20%EB%AC%B8%EC%84%9C%20%EA%B4%80%EB%A6%AC%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md)|
 |chapter 5 비즈니스 규칙 엔진|8월 19일 목요일 |김명환|[링크](https://github.com/samkimuel/study-book-real-world-software-development/blob/G/5/samkimuel/chap5/ch5.md)|
-|chapter 6 트우터|8월 26일 목요일|김영현||
-|chapter 7 & 8 트우터 확장판|9월 2일 목요일|황일용||
+|chapter 6 트우터|8월 26일 목요일|김영현|[링크](https://github.com/eden6187/be-G-book-real-world-software-development-study/blob/eden6187-chapter6/RWSD-Chapter6.md)|
+|chapter 7 & 8 트우터 확장판|9월 2일 목요일|황일용|[링크](https://github.com/dlfdyd96/be-G-book-real-world-software-development-study/blob/main/chapter7/README.md)|
 
 <br/>
 
